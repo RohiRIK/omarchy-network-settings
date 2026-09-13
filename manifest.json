@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "rohirik.network-settings",
+  "name": "Network Settings",
+  "version": "0.1.0",
+  "author": "RohiRIK",
+  "description": "Native Wi-Fi and IPv4 settings with DHCP, static IP and use-current-IP support",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "Network Settings",
+    "description": "Native Wi-Fi and IPv4 settings with DHCP, static IP and use-current-IP support",
+    "category": "Network",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  },
+  "omarchy": {
+    "clonedFrom": "omarchy.network"
+  }
+}

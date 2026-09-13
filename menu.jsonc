@@ -1,0 +1,5 @@
+{
+  "setup.network": {"label": "Network", "icon": "󰛳", "aliases": ["network"], "description": "Wi-Fi and IP settings"},
+  "setup.network.wifi": {"label": "Wi-Fi", "icon": "󰖩", "action": "omarchy-shell omarchy.network wifi", "description": "Connect to a wireless network"},
+  "setup.network.ip": {"label": "IP settings", "icon": "󰛳", "action": "omarchy-shell omarchy.network settings", "description": "Choose a local IP address, DHCP, gateway and DNS"}
+}
