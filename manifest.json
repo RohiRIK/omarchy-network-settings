@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "rohirik.network-settings",
   "name": "Network Settings",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "RohiRIK",
   "description": "Native Wi-Fi and IPv4 settings with DHCP, static IP and use-current-IP support",
   "kinds": [

@@ -76,5 +76,29 @@ class SettingsTests(unittest.TestCase):
                 self.save(**kwargs)
         self.assertEqual(self.calls, [])
 
+
+class PublicIpTests(unittest.TestCase):
+    def test_returns_valid_ipv4_with_timeout(self):
+        from unittest.mock import MagicMock
+        response = MagicMock()
+        response.__enter__.return_value.read.return_value = b'{"ip":"203.0.113.7"}'
+        with patch.object(settings.urllib.request, 'urlopen', return_value=response) as request:
+            self.assertEqual(settings.public_ip(), {'ip': '203.0.113.7'})
+            self.assertEqual(request.call_args.kwargs['timeout'], 8)
+            self.assertEqual(request.call_args.args[0].full_url, 'https://api.ipify.org?format=json')
+
+    def test_rejects_invalid_response(self):
+        from unittest.mock import MagicMock
+        response = MagicMock()
+        response.__enter__.return_value.read.return_value = b'{"ip":"not-an-address"}'
+        with patch.object(settings.urllib.request, 'urlopen', return_value=response):
+            with self.assertRaises(ValueError):
+                settings.public_ip()
+
+    def test_offline_error_propagates_to_cli_error_handler(self):
+        with patch.object(settings.urllib.request, 'urlopen', side_effect=TimeoutError('offline')):
+            with self.assertRaises(TimeoutError):
+                settings.public_ip()
+
 if __name__ == '__main__':
     unittest.main()

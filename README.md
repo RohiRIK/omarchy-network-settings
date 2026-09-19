@@ -6,6 +6,7 @@ Native Wi-Fi and IPv4 configuration inside the Omarchy network panel. Uses the s
 - Edit saved Wi-Fi and Ethernet profiles, with the active connection selected automatically.
 - Choose DHCP or a manual IPv4 address, prefix, gateway, and DNS servers.
 - **Use current IP as fixed** fills the current connection's address, subnet prefix, gateway, and DNS into a manual configuration.
+- Display the public IPv4 address with a refresh button.
 - Save a profile without interrupting the active connection. Reconnect to apply it.
 
 ## Requirements
@@ -38,6 +39,10 @@ This adds separate **Wi-Fi** and **IP settings** actions under **Network**, alon
 The current-IP button only fills the form. It does not choose a new unused address or create a DHCP reservation on your router. Reserve or exclude the address in the router's DHCP configuration to prevent it being leased to another device.
 
 Only IPv4 settings are edited. Existing IPv6 settings and other profile properties remain as configured. The current-IP shortcut requires the selected connection to be active and have an IPv4 address. It does not copy values from another interface.
+
+## Public IPv4 lookup
+
+Clicking **Show via ipify.org** requests `https://api.ipify.org?format=json` over HTTPS; the refresh button repeats the lookup. Opening the panel makes no public-IP request. The service sees the request's public source address. No SSID, saved profile, password, or local IP is sent. The result reflects the current default internet route (including a VPN if it carries the request), not necessarily the selected connection. Offline or failed lookups show **Unavailable** and can be retried.
 
 ## Update and remove
 

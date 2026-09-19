@@ -2,6 +2,7 @@ import ipaddress
 import json
 import subprocess
 import sys
+import urllib.request
 
 def nm(*args):
     p = subprocess.run(['nmcli', '--escape', 'no', *args], capture_output=True, text=True, timeout=20)
@@ -34,8 +35,17 @@ def current_static(uuid):
                    message='Filled from current subnet ' + str(parsed[0].network) + '. Review, then save.')
     return profile
 
+def public_ip():
+    request = urllib.request.Request('https://api.ipify.org?format=json',
+                                     headers={'User-Agent': 'Omarchy-Network-Settings/0.2.0'})
+    with urllib.request.urlopen(request, timeout=8) as response:
+        data = json.loads(response.read(1024))
+    return {'ip': str(ipaddress.IPv4Address(data['ip']))}
+
 def main():
     action = sys.argv[1]
+    if action == 'public':
+        return public_ip()
     if action == 'list':
         profiles = []
         for uuid in nm('-g', 'UUID', 'connection', 'show').splitlines():

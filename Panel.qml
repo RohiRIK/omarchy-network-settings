@@ -29,6 +29,56 @@ Panel {
     identityText = ""
   }
 
+  property string publicIp: ""
+  property string publicIpError: ""
+  function refreshPublicIp() {
+    if (publicIpProc.running) return
+    publicIp = ""
+    publicIpError = ""
+    publicIpProc.running = true
+  }
+  Process {
+    id: publicIpProc
+    command: ["python3", Qt.resolvedUrl("settings.py").toString().replace("file://", ""), "public"]
+    stdout: StdioCollector {
+      onStreamFinished: {
+        try {
+          var data = JSON.parse(text)
+          root.publicIp = data.ip || ""
+          root.publicIpError = data.error ? "Unavailable" : ""
+        } catch (e) { root.publicIpError = "Unavailable" }
+      }
+    }
+  }
+  component PublicIpRow: RowLayout {
+    width: parent.width
+    spacing: Style.space(8)
+    Text {
+      text: "Public IPv4"
+      color: root.bar.foreground
+      font.family: root.bar.fontFamily
+      font.pixelSize: Style.font.bodySmall
+    }
+    Text {
+      Layout.fillWidth: true
+      horizontalAlignment: Text.AlignRight
+      text: publicIpProc.running ? "Loading…" : (root.publicIp || root.publicIpError || "—")
+      textFormat: Text.PlainText
+      elide: Text.ElideRight
+      color: root.bar.foreground
+      font.family: root.bar.fontFamily
+      font.pixelSize: Style.font.bodySmall
+    }
+    Ui.Button {
+      text: root.publicIp ? "Refresh via ipify.org" : "Show via ipify.org"
+      tooltipText: "Contact ipify.org to look up your public IPv4 address"
+      focusable: true
+      enabled: !publicIpProc.running
+      fontSize: Style.font.caption
+      onClicked: root.refreshPublicIp()
+    }
+  }
+
   property bool ipEditing: false
   property string ipMessage: ""
   property string ipUuid: ""
@@ -1140,6 +1190,7 @@ Panel {
         font.pixelSize: Style.font.body
         font.bold: true
       }
+      PublicIpRow {}
       Ui.Dropdown {
         width: parent.width
         label: "CONNECTION"
@@ -1240,6 +1291,8 @@ Panel {
           root.ipRequest("list", [])
         }
       }
+
+      PublicIpRow {}
 
       // ---------- Hero: network icon · SSID + state · actions ----------
       Item {
