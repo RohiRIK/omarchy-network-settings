@@ -2,6 +2,15 @@
 
 Native Wi-Fi and IPv4 configuration inside the Omarchy network panel. Uses the shell's own controls, colors, and fonts.
 
+![IP settings with a manual address filled from the current connection](preview.png)
+
+<table>
+<tr><th>Network panel</th><th>Automatic (DHCP)</th></tr>
+<tr><td><img src="docs/wifi.png" alt="Network panel with demo data"></td><td><img src="docs/ip-dhcp.png" alt="IP settings in DHCP mode with demo data"></td></tr>
+</table>
+
+Screenshots render the actual QML interface with synthetic network names and documentation-range addresses.
+
 - Connect to Wi-Fi using Omarchy's existing network panel.
 - Edit saved Wi-Fi and Ethernet profiles, with the active connection selected automatically.
 - Choose DHCP or a manual IPv4 address, prefix, gateway, and DNS servers.
@@ -63,6 +72,12 @@ omarchy plugin validate .
 ```
 
 Tests mock NetworkManager and never modify a real connection.
+
+```bash
+python3 tools/render-previews.py
+```
+
+The screenshot tool needs the installed Omarchy shell and runs an isolated offscreen renderer with synthetic data. It never captures your desktop, and never reads NetworkManager or contacts ipify.org.
 
 ## Attribution
 
