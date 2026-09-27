@@ -1,5 +1,11 @@
 # Omarchy Network Settings
 
+> **Archived.** This plugin continues as [rohi.network](https://github.com/RohiRIK/rohi.network), which is listed in the Omarchy plugin marketplace. Install that one instead:
+>
+> ```bash
+> omarchy plugin add https://github.com/RohiRIK/rohi.network --enable
+> ```
+
 Native Wi-Fi and IPv4 configuration inside the Omarchy network panel. Uses the shell's own controls, colors, and fonts.
 
 ![IP settings with a manual address filled from the current connection](preview.png)
